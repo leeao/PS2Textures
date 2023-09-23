@@ -23,7 +23,7 @@ How to UnSwizzle:
 
     8bpp:
         Method 1:
-            pixelBuffer = rapi.imageUntwiddlePS2(pixelBuffer, width, height, 8)
+            pixelBuffer = unswizzle8(buffer,width,height)
             
         Method 2:
             rrw = width // 2
