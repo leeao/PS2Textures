@@ -236,63 +236,7 @@ def readTexPSMT8(dbp, dbw, dsax, dsay, rrw, rrh, gsmem):
             src += 1
             
     return data
-block16 = [ 
-	 0,  2,  8, 10,
-	 1,  3,  9, 11,
-	 4,  6, 12, 14,
-	 5,  7, 13, 15,
-	16, 18, 24, 26,
-	17, 19, 25, 27,
-	20, 22, 28, 30,
-	21, 23, 29, 31
-]
-
-columnWord16 = [  
-
-	 0,  1,  4,  5,  8,  9, 12, 13,   0,  1,  4,  5,  8,  9, 12, 13,
-	 2,  3,  6,  7, 10, 11, 14, 15,   2,  3,  6,  7, 10, 11, 14, 15
-]
-
-columnHalf16 = [ 
-
-	0, 0, 0, 0, 0, 0, 0, 0,  1, 1, 1, 1, 1, 1, 1, 1,
-	0, 0, 0, 0, 0, 0, 0, 0,  1, 1, 1, 1, 1, 1, 1, 1
-]
-
-
-def writeTexPSMCT16(dbp, dbw, dsax, dsay, rrw, rrh, data):
-    
-    # dbw >>= 1
-    src = 0
-    startBlockPos = dbp * 64
-    gsmem = bytearray(1024 * 1024 * 4)
-    for y in range(dsay + rrh):
-        for x in range(dsax + rrw):  
-		
-            pageX = x // 64
-            pageY = y // 64
-            page  = pageX + pageY * dbw
-
-            px = x - (pageX * 64)
-            py = y - (pageY * 64)
-
-            blockX = px // 16
-            blockY = py // 8
-            block  = block16[blockX + blockY * 4]
-
-            bx = px - blockX * 16
-            by = py - blockY * 8
-
-            column = by // 2
-
-            cx = bx
-            cy = by - column * 2
-            cw = columnWord16[cx + cy * 16]
-            ch = columnHalf16[cx + cy * 16]
-
-            pos = (startBlockPos + page * 2048 + block * 64 + column * 16 + cw + ch) * 2
-            gsmem[pos : pos + 2] = data[src : src + 2]
-            src += 2      
+      
 ###=========================================================###
 
 
